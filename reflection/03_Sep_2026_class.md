@@ -2,54 +2,125 @@
 
 ## Topics Covered
 
-- Text terminals and graphical user interfaces
-- Accessing remote computers using SSH
-- Finding matching elements between two lists
-- Connecting matching elements using arrows
-- Reproducing software failures
-- Creating JavaFX interfaces using FXML
+* Text terminals and graphical user interfaces
+* Remote access using SSH
+* Finding matching elements between lists
+* Drawing arrows between matching elements
+* Reproducing software failures
+* JavaFX interfaces using FXML
 
 ---
 
-## What I Learned
+## Text Terminals and Graphical User Interfaces
 
-In this class, I learned the difference between a text terminal and a graphical user interface. I understood that terminals are useful for automation, remote access, and running commands efficiently, while GUIs provide a more visual and user-friendly way to interact with applications.
+I learned about the difference between **text terminals** and **graphical user interfaces (GUIs)**. A terminal allows users to interact with a computer by entering commands, while a GUI uses visual components such as buttons, windows, menus, and icons.
 
-I also learned about SSH and how it can be used to securely access a remote computer through the command line. This helped me understand how remote machines can be managed without needing a graphical interface.
+Terminals are useful for automation, scripting, remote administration, and situations where low resource usage is important. GUIs are generally easier for beginners and are useful when visual interaction and feedback are important.
 
-Another important concept was finding common elements between two lists. I learned how matching values can be identified and then represented visually by connecting the corresponding elements with arrows. I also learned that using a `Map` can make the searching process more efficient for larger lists.
-
-The class also covered the importance of reproducing software failures. I learned that clearly documenting the steps, expected result, actual result, and environment makes it easier to identify and fix bugs.
-
-Finally, I learned about FXML and how it can be used to define the structure of a JavaFX interface separately from the application logic.
+I understood that neither approach is always better. The choice depends on the task and the user's requirements.
 
 ---
 
-## Personal Learning Challenge
+## Remote Access Using SSH
 
-The part I found most challenging was understanding how the matching logic and JavaFX visualization work together. At first, it was difficult to connect the list indexes with the positions of the graphical elements. Breaking the problem into separate parts—finding the matches first and then drawing the arrows—made the concept easier to understand.
+I learned that **SSH (Secure Shell)** is used to securely connect to and work with another computer over a network.
+
+A basic SSH command is:
+
+```sh
+ssh username@example.com
+```
+
+SSH encrypts communication between the local and remote machines. It can be used to run commands, manage servers, deploy applications, edit files, and transfer data.
+
+This showed me why SSH is commonly used in software development and server administration, especially when a graphical interface is not necessary.
 
 ---
 
-## Specific Class Example
+## Finding Matching Elements Between Lists
 
-A specific example from the class was comparing two lists and drawing arrows between the matching values. The program first identifies the matching elements and their positions, and then uses those positions to draw connections in JavaFX. This helped me understand how data processing can be connected to graphical representation.
+Another concept covered was finding common elements between two lists.
+
+For example, if two lists contain:
+
+```text
+List 1: A, B, C
+List 2: C, A, D
+```
+
+the program needs to identify that `A` and `C` are present in both lists.
+
+A simple approach is to compare every element of the first list with every element of the second list. For larger datasets, a `HashMap` can be used to improve the lookup process.
+
+I also learned that the matching rules should be clearly defined, especially when dealing with duplicate values, case sensitivity, whitespace, or `null` values.
 
 ---
 
-## Personal Reflection
+## Drawing Arrows Between Matching Elements
 
-I found this class useful because it showed me how different areas of software development connect with each other. The SSH topic gave me a better understanding of working with remote systems, while the list-matching example showed me how algorithms can be represented visually.
+After finding matching elements, the next step is to visually represent the relationships between them.
 
-The discussion about reproducible software failures also made me realize that debugging is not only about finding errors in code. Being able to clearly reproduce and document a problem is an important part of solving it.
+In JavaFX, the matching items can be displayed on opposite sides of a `Pane`, and `Line` objects can be used to draw arrows between them.
+
+The general process is:
+
+1. Find the position of an item in the first list.
+2. Find the position of its matching item in the second list.
+3. Draw a line between the two positions.
+4. Add an arrowhead to indicate the direction.
+
+I learned that it is better to keep the **matching logic separate from the graphical presentation**. This makes the program easier to understand, test, and maintain.
+
+---
+
+## Reproducibility of Software Failures
+
+I learned that a software failure is much easier to fix when it can be **reproduced consistently**.
+
+A useful bug report should describe:
+
+* What went wrong
+* Steps to reproduce the problem
+* Expected behavior
+* Actual behavior
+* Error messages or logs
+* Relevant environment information
+
+Reproducing a problem allows developers to investigate its cause, test possible solutions, and verify that the issue has actually been fixed.
+
+---
+
+## FXML in JavaFX
+
+I also learned about **FXML**, which is an XML-based language used to define JavaFX user interfaces.
+
+FXML allows the structure of the interface to be separated from the Java code that controls its behavior. It can define components such as buttons, labels, text fields, and layouts.
+
+For example:
+
+```xml
+<Button text="Continue" onAction="#handleContinue" />
+```
+
+The controller can then contain the corresponding method:
+
+```java
+@FXML
+private void handleContinue() {
+    // Handle button action
+}
+```
+
+This separation makes larger JavaFX applications easier to organize and maintain. FXML can also be used with tools such as Scene Builder to design interfaces visually.
 
 ---
 
 ## Key Takeaways
 
-- Terminals are useful for efficient commands, automation, and remote access.
-- SSH allows secure access to remote computers.
-- Matching algorithms can be used to compare data from two lists.
-- JavaFX can be used to visually represent relationships between matching elements.
-- Reproducible bugs are easier to investigate and fix.
-- FXML helps separate JavaFX interface design from application logic.
+* Terminals are useful for efficient command-line work, automation, and remote administration.
+* GUIs provide visual and interactive ways to use applications.
+* SSH provides secure remote access to computers.
+* Lists can be compared to find matching elements, with maps helping improve lookup efficiency.
+* JavaFX can visually represent relationships using lines and arrows.
+* Reproducible failures make debugging and testing fixes easier.
+* FXML separates JavaFX interface design from application logic.
