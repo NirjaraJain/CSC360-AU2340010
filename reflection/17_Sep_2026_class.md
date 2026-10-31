@@ -1,38 +1,30 @@
 # Reflection — 17 September 2026
-**Group 1 Project: TriangleFX**
+**CSC360 Group Project: Master-Detail Application**
 
-During this class, I worked on the Group 1 project, TriangleFX, and contributed to finalizing its requirements, documentation, and overall implementation approach. The project focuses on developing a JavaFX desktop application that takes three linear equations as input, calculates their points of intersection, checks whether they form a valid triangle, and displays the resulting triangle graphically.
+During this session, I worked on our group project, a Master-Detail Application developed using JavaFX. The main objective of the project was to create a desktop application that follows the master-detail design pattern, allowing users to select an item from a main list and view its corresponding detailed information in a separate section.
 
 ### Work Completed
 
-My primary contribution during this session was working on the project's documentation and planning.
+1. **Understanding the Project Requirements:** I focused on understanding the purpose and functionality of the Master-Detail application. We discussed how the application should organize information and how users would interact with the master and detail sections.
 
-1. **Defining Project Requirements:** I helped establish the main objectives and functional requirements of TriangleFX. These included accepting three linear equations, supporting integer and decimal coefficients, calculating pairwise intersections, identifying parallel or coincident lines, and validating whether the resulting points form a proper triangle.
+2. **Understanding the Application Structure:** I explored the overall structure of the JavaFX project, including the main application classes such as `MainApp` and `MasterDetailApp`. I understood how these classes contribute to launching the application and managing its different components.
 
-2. **Updating Project Documentation:** I worked on improving the repository's README file to clearly explain the project's purpose, proposed features, supported equation formats, and current development status. I ensured that the documentation reflected what had actually been completed rather than presenting planned features as implemented.
+3. **Understanding the Master-Detail Concept:** I studied how the master section displays a collection of items and how selecting an individual item allows its associated information to be displayed in the detail section. This helped me understand how information can be presented in an organized and user-friendly manner.
 
-3. **Preparing the Implementation Plan:** I contributed to creating a structured eight-phase development plan, starting with documentation and JavaFX project setup, followed by equation parsing, geometry calculations, interface development, canvas rendering, testing, and finalization. This helped us establish clear milestones and understand the work that needs to be completed.
+4. **Exploring JavaFX Components:** I familiarized myself with the JavaFX components and their role in developing the graphical user interface. I also explored how different UI elements interact and how user actions can trigger changes in the application.
 
-4. **Using Git and GitHub:** I worked with the branch and pull-request workflow by making changes on a separate branch, committing updates, and merging the finalized implementation plan into the main branch through a pull request. This gave me practical experience with collaborative version control and maintaining an organized project repository.
-
-5. **Discussing Design Alternatives:** We explored and compared different approaches to the project design. These discussions helped us finalize the application structure and divide its functionality into separate modules for equation parsing, geometry calculations, user interaction, and graphical representation.
-
-### Understanding of the Proposed Implementation
-
-Through the planning process, I understood how the application would process user input step by step. First, the equation parser will convert the entered equations into the standard form Ax + By = C. The geometry component will then calculate the intersections between the three lines and check whether they produce three distinct, non-collinear points. Finally, the JavaFX interface will display the triangle on a canvas along with its vertex labels or appropriate error messages.
-
-We also identified important edge cases, such as parallel lines, coincident lines, duplicate intersection points, and collinear vertices. Handling these situations will be necessary to ensure that the application works correctly for different inputs.
+5. **Understanding Code Organization:** I reviewed how the project is divided into different classes and packages. This helped me understand the importance of organizing code properly and keeping different responsibilities separate.
 
 ### What I Learned
 
-This session helped me understand that proper planning and documentation are essential before starting the actual implementation of a software project. Clearly defining requirements and dividing the application into smaller components makes development more organized and manageable.
+This session helped me understand the master-detail design pattern and its practical implementation using JavaFX. I learned how a desktop application's interface can be organized into different sections to make information easier to access.
 
-I also gained a better understanding of collaborative GitHub practices, particularly working with branches, commits, and pull requests. Additionally, comparing different design approaches helped me realize the importance of modular programming, where each component has a specific responsibility and can be developed and tested independently.
+I also improved my understanding of Java classes, object-oriented programming, and the relationship between different components of a JavaFX application. Exploring the project structure helped me understand why maintaining separate classes and packages makes an application easier to manage and modify.
 
 ### Next Steps
 
-Our next step is to set up the JavaFX project using Maven and ensure that the application can run successfully. Once the basic project structure is ready, we will begin implementing the equation parser and gradually integrate the geometry calculations, user interface, and canvas rendering.
+Moving forward, I planned to explore the implementation in greater detail, understand the event-handling mechanism, and examine how the master section communicates with the detail section. I also wanted to become more familiar with the individual methods and classes used in the application.
 
 ### Overall Reflection
 
-Overall, this session was productive because it helped us establish a clear foundation for TriangleFX. Although the actual application implementation is yet to begin, we made significant progress in defining the requirements, organizing the development process, and deciding on the application's architecture. I learned that having a well-defined plan before coding helps avoid confusion, improves teamwork, and makes it easier to track progress throughout the project.
+Overall, this session helped me establish a better understanding of our Master-Detail project and its underlying structure. I gained a clearer idea of how JavaFX can be used to develop interactive desktop applications and how the master-detail pattern helps organize and display information effectively. It also provided a good foundation for understanding the implementation and contributing to the project.
