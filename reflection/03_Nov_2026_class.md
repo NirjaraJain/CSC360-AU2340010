@@ -1,171 +1,176 @@
-Reflection --- 3 November 2026
-Topics Covered
-- RGB and RGBA colour models
-- The role of the alpha channel
-- Storing pixels in 32-bit integers
-- Bitwise packing and unpacking of pixel values
-- Planar and packed memory layouts
-- Channel ordering: RGBA, ARGB, BGRA and ABGR
-- Big-endian and little-endian byte arrangements
-- Handling pixel data in Java
-1. Understanding the RGB Colour Model
-In this session, I learned how digital images represent colours using
-the RGB model. RGB stands for Red, Green and Blue. Each pixel in an
-image contains three values that indicate the intensity of these colour
-components.
+# Reflection — 3 November 2026
 
-Usually, each channel is represented using 8 bits, which means its value
-can range from 0 to 255. A value of 0 indicates that the colour
-component is absent, while 255 represents its maximum intensity. By
-combining different intensities of red, green and blue, a computer can
-display approximately 16.7 million colours.
+## Topics Covered
 
-For example:
-- Red: (255, 0, 0)
-- Green: (0, 255, 0)
-- Blue: (0, 0, 255)
-- Yellow: (255, 255, 0)
-- White: (255, 255, 255)
-- Black: (0, 0, 0)
-This helped me understand that the colours visible in a digital image
-are created by combining the intensity values of its individual colour
-channels.
-2. Understanding the RGBA Model and Alpha Channel
-I also learned that RGBA is an extension of RGB. It contains four
-components: Red, Green, Blue and Alpha. The alpha channel controls
-how transparent or opaque a pixel appears.
+- RGB colour channels and pixel representation
+- RGBA colour model and alpha transparency
+- 32-bit integer (`int32`) pixel storage
+- Different channel arrangements (RGBA, ARGB, BGRA and ABGR)
+- Endianness: Little Endian and Big Endian
 
-The alpha value is generally stored in 8 bits and ranges from 0 to 255:
-- 0 means completely transparent.
-- 255 means completely opaque.
-- Values between 1 and 254 represent different levels of transparency.
-The alpha channel is useful when placing images or objects over
-different backgrounds, combining multiple layers, and creating smooth
-edges around text or shapes. Image formats such as PNG can use
-transparency to display objects without an unwanted rectangular
-background.
+## 1. Understanding RGB in Digital Images
 
-I understood alpha blending as the process of combining a foreground
-colour with a background colour. The result depends on the opacity of
-the foreground pixel:
-alpha = Alpha_A / 255.0
+In this session, I learned about the RGB colour model, which is used to represent colours in digital images. RGB stands for Red, Green and Blue. These three primary colour components are combined in different proportions to produce various colours.
 
-Output Colour = (alpha * Foreground Colour)
-              + ((1 - alpha) * Background Colour)
-The class also introduced two ways of storing alpha information. In
-straight alpha, the RGB values are stored separately and alpha is
-applied during rendering. In premultiplied alpha, each RGB component
-is multiplied by the alpha value before compositing. This can make
-blending more efficient and help avoid dark edges around transparent
-objects.
-3. Storing a Pixel as a 32-Bit Integer
-Another important concept was how a pixel can be stored in memory.
-Instead of keeping the alpha, red, green and blue values separately,
-they can be combined into one 32-bit integer. Since each channel uses 8
-bits, four channels together require 32 bits, or 4 bytes.
+Every pixel in an RGB image contains three intensity values:
 
-A common arrangement is ARGB:
-| Alpha (8 bits) | Red (8 bits) | Green (8 bits) | Blue (8 bits) |
-Using a 32-bit integer can make pixel storage and processing convenient.
-It also provides 4-byte alignment, which is suitable for many modern
-processors. SIMD instructions can process multiple data values
-efficiently, and storing the complete pixel in one integer makes it
-easier to copy or manipulate the pixel as a unit.
-Packing and Unpacking Pixel Values
-I learned that bitwise operators can combine individual channel values
-into one integer. The left-shift operator (<<) moves each channel into
-its required position, while the bitwise OR operator (|) combines the
-values.
-packedPixel = (alpha << 24) | (red << 16) | (green << 8) | blue;
-The reverse process is called unpacking. Right shifts move the required
-channel into position, and the AND operator with 0xFF extracts its
-8-bit value.
-alpha = (packedPixel >>> 24) & 0xFF;
-red   = (packedPixel >>> 16) & 0xFF;
-green = (packedPixel >>> 8) & 0xFF;
-blue  = packedPixel & 0xFF;
-This showed me how low-level bitwise operations are used to access and
-modify colour information in digital images.
-4. How Pixel Channels Are Arranged in Memory
-The arrangement of pixel information in memory is another important
-aspect of image processing. I learned about two common layouts:
-- Planar layout: All values belonging to one channel are stored
-  together. For example, the red values are stored first, followed by
-  the green, blue and alpha values.
-- Packed or interleaved layout: The colour components of each
-  pixel are stored next to one another. For example, the memory may
-  contain the sequence RGBARGBARGBA.
-The order of the channels in packed memory is not always the same. Some
-common arrangements are:
+- Red (R): Represents the intensity of red.
+- Green (G): Represents the intensity of green.
+- Blue (B): Represents the intensity of blue.
 
-  Format   Channel sequence
-  RGBA     Red, Green, Blue, Alpha
-ARGB     Alpha, Red, Green, Blue
-BGRA     Blue, Green, Red, Alpha
-ABGR     Alpha, Blue, Green, Red
+```
+Pixel (x, y) = [Red, Green, Blue]
+```
 
-Different graphics frameworks and platforms may use different channel
-arrangements. Therefore, it is important to know the expected format
-when transferring image data between applications or libraries. If the
-channel order is interpreted incorrectly, colours can appear distorted.
-For example, confusing RGBA with BGRA can swap the red and blue
-components.
-5. Understanding Endianness
-The session also covered endianness, which describes the order in
-which the bytes of a multi-byte value are stored in computer memory.
+### Channel Intensity Range
 
-There are two main types:
-- Big-endian: The most significant byte (MSB) is stored at the
-  lowest memory address.
-- Little-endian: The least significant byte (LSB) is stored at the
-  lowest memory address.
-For example, consider the hexadecimal value 0x12345678.
-Big-endian:    12  34  56  78
-Little-endian: 78  56  34  12
-In big-endian storage, the bytes follow the order in which the number is
-normally written. In little-endian storage, the byte order is reversed
-in memory. Most modern desktop processors, including common Intel and
-AMD systems, use little-endian representation.
-Connection Between Endianness and Pixel Storage
-I found it important to distinguish between the way a pixel integer is
-written in code and the way its bytes are arranged in physical memory.
+In a standard 24-bit RGB image, each colour channel occupies 8 bits. Therefore, every channel can have values between 0 and 255, giving 256 possible intensity levels.
 
-For example, an ARGB integer can be represented as:
+- `0` represents the absence of that particular colour.
+- `255` represents the highest intensity of that colour.
+
+Some common colour combinations are:
+
+- `(0, 0, 0)` – Black
+- `(255, 255, 255)` – White
+- `(255, 0, 0)` – Red
+- `(0, 255, 0)` – Green
+- `(0, 0, 255)` – Blue
+- `(255, 255, 0)` – Yellow
+
+I understood that different combinations of these three channels allow digital devices to display millions of colours.
+
+## 2. Understanding RGBA and the Alpha Channel
+
+I also learned about the RGBA colour model, which is an extension of RGB. It includes an additional component called the Alpha channel, which determines the transparency or opacity of a pixel.
+
+An RGBA pixel consists of four values:
+
+- Red (R): Red colour intensity.
+- Green (G): Green colour intensity.
+- Blue (B): Blue colour intensity.
+- Alpha (A): Controls the transparency level.
+
+The alpha value generally ranges from 0 to 255:
+
+```
+Alpha = 0    → Completely transparent
+Alpha = 128  → Approximately 50% opaque
+Alpha = 255  → Completely opaque
+```
+
+The alpha channel is useful when combining multiple images, placing objects over different backgrounds and creating transparent graphical elements. It is also used for smooth edges in text and graphical interfaces.
+
+### Storage of Pixels Using 32-Bit Integers
+
+Another concept covered was how an RGBA pixel can be stored as a single 32-bit integer (`int32`).
+
+Since each of the four channels requires 8 bits, the total storage required is:
+
+```
+4 channels × 8 bits = 32 bits = 4 bytes
+```
+
+The four channels are stored together in a single integer, with each channel occupying a separate 8-bit section.
+
+This representation supports approximately 4.29 billion possible combinations of colour and transparency values. It also makes pixel data convenient to handle using standard 32-bit processor operations.
+
+## 3. Arrangement of Pixel Channels in Memory
+
+I learned that although an image pixel contains the same four components (Red, Green, Blue and Alpha), their arrangement in memory can differ depending on the graphics framework, hardware or file format being used.
+
+The four common channel arrangements are:
+
+| Format | Arrangement             |
+| ------ | ----------------------- |
+| RGBA   | Red, Green, Blue, Alpha |
+| ARGB   | Alpha, Red, Green, Blue |
+| BGRA   | Blue, Green, Red, Alpha |
+| ABGR   | Alpha, Blue, Green, Red |
+
+### Common Channel Formats
+
+1\. RGBA
+
+- Stores the channels in the order Red, Green, Blue and Alpha.
+- Commonly used in OpenGL, WebGL, HTML5 Canvas and PNG image data.
+
+2\. ARGB
+
+- Stores Alpha first, followed by Red, Green and Blue.
+- Used in Java AWT and several desktop graphics applications.
+
+3\. BGRA
+
+- Arranges the channels as Blue, Green, Red and Alpha.
+- Commonly used in graphics systems such as DirectX and other rendering frameworks.
+
+4\. ABGR
+
+- Stores Alpha, Blue, Green and Red in sequence.
+- Used in certain specialised graphics systems and image buffers.
+
+Understanding these arrangements is important because using an incorrect channel order can produce unexpected colour changes. For example, if BGRA data is interpreted as RGBA, the red and blue components get exchanged, resulting in incorrect image colours.
+
+## 4. Understanding Endianness: Little Endian and Big Endian
+
+Another important topic discussed in class was endianness. It refers to the order in which multiple bytes of a data value are arranged in computer memory.
+
+When a 32-bit integer is stored in memory, its four bytes can be arranged in two different ways: Big Endian or Little Endian.
+
+### Big Endian
+
+- The Most Significant Byte (MSB) is stored at the lowest memory address.
+- The bytes are arranged in the same order in which the number is normally written.
+- It is also known as network byte order.
+
+### Little Endian
+
+- The Least Significant Byte (LSB) is stored at the lowest memory address.
+- The byte arrangement is reversed compared to Big Endian.
+- It is commonly used by modern processors such as Intel and AMD systems and ARM processors in their usual little-endian configuration.
+
+### Difference Between Big Endian and Little Endian
+
+For example, consider a 32-bit hexadecimal value:
+
+```
 0xAARRGGBB
-On a big-endian system, its bytes are stored as AA RR GG BB. On a
-little-endian system, the same integer is stored as BB GG RR AA.
+```
 
-This explains why a pixel represented as ARGB in a 32-bit integer may
-appear as BGRA when its bytes are examined in memory on a little-endian
-machine. Understanding this difference helps prevent errors when working
-with image buffers and graphics APIs.
-6. Applying These Concepts in Java
-The practical part of the topic involved Java classes used for handling
-image data and byte order. The BufferedImage class is useful for
-working with images, while ByteBuffer and ByteOrder can be used to
-demonstrate how integer values are stored in different byte orders.
+Its memory arrangement will be different depending on the endianness.
 
-The packARGB() method combines four channel values into a single
-integer. The unpackARGB() method extracts the individual channel
-values from that integer. The ByteBuffer class can then demonstrate
-the difference between big-endian and little-endian storage.
+| Memory Address | Big Endian | Little Endian |
+| -------------- | ---------- | ------------- |
+| Address + 0    | Alpha (AA) | Blue (BB)     |
+| Address + 1    | Red (RR)   | Green (GG)    |
+| Address + 2    | Green (GG) | Red (RR)      |
+| Address + 3    | Blue (BB)  | Alpha (AA)    |
 
-This helped connect the theoretical concepts of pixel representation and
-memory layout with their implementation in Java.
-Overall Reflection
-This session helped me understand that a digital image is not simply a
-collection of visible colours; it is also a structured collection of
-numerical values stored and processed in memory. I learned how RGB
-represents colour, how the alpha channel adds transparency, and how four
-channel values can be combined into a 32-bit integer.
+This helped me understand that the same 32-bit integer can have different byte arrangements in physical memory.
 
-I also understood the difference between planar and packed image
-layouts, along with the common channel orders used by graphics systems.
-The discussion of endianness clarified why the same integer can have a
-different byte sequence in memory depending on the processor
-architecture.
+### Connection Between Endianness and Pixel Representation
 
-Overall, these concepts gave me a better understanding of how image
-pixels are represented, stored and handled in Java. They will be useful
-when implementing image-processing operations and working with image
-buffers in future practical tasks.
+One important point I learned is that the way a pixel is represented in a program is not necessarily the same as its physical byte arrangement in memory.
+
+For example, when an integer is represented as `0xAARRGGBB`, a Big Endian system stores its bytes as:
+
+```
+[AA, RR, GG, BB]
+```
+
+Whereas a Little Endian system stores them as:
+
+```
+[BB, GG, RR, AA]
+```
+
+Therefore, an ARGB integer can appear as a BGRA byte sequence when stored in memory on a Little Endian machine. This distinction is important when handling image data and transferring pixels between different graphics systems.
+
+## Overall Reflection
+
+Through this session, I gained a better understanding of how colours and pixels are represented and stored in digital images. I learned how the RGB model combines three primary colour channels to produce different colours and how the RGBA model adds transparency through the alpha channel.
+
+I also understood how four channel values can be combined into a single 32-bit integer and how different graphics systems arrange these channels in memory. The concepts of Big Endian and Little Endian helped me understand why the same pixel value can have different byte sequences depending on the computer architecture.
+
+Overall, this session helped me understand the internal representation of digital images and how colour information is managed at the memory level. These concepts will be useful when working with image processing, pixel manipulation and Java-based graphics applications.
